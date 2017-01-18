@@ -5,7 +5,7 @@
 
 WRITE=true
 FILE="ChangeLog"
-GITPATH="master..HEAD"
+REFLIST="master..HEAD"
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -20,7 +20,7 @@ while [ "$1" != "" ]; do
             WRITE=false
             ;;
         *)
-            GITPATH="$1"
+            REFLIST="$1"
             ;;
     esac
     shift
@@ -34,11 +34,11 @@ if `git branch --no-color | grep -q '^\*'`; then
         TAGS=`git tag -l`
         if [ "$TAGS" == "" ]; then
             BRANCH="0.1.0"
-            GITPATH=""
+            REFLIST=""
         else
             COMMIT=`git rev-list --tags --max-count=1`
             BRANCH=`git describe --tags $COMMIT`
-            GITPATH="$COMMIT..HEAD"
+            REFLIST="$COMMIT..HEAD"
         fi
     fi
     if [ "$BRANCH" != "" ]; then
@@ -48,7 +48,7 @@ if `git branch --no-color | grep -q '^\*'`; then
         HEAD="$DATE         [RELEASE] Release of $DIR $BRANCH ($USER)"$'\n'
     fi
 
-    LOG=`git log --pretty=format:"%ad %h %s (%an)" --date=short --no-merges $GITPATH`
+    LOG=`git log --pretty=format:"%ad %h %s (%an)" --date=short --no-merges $REFLIST`
     if [ "$LOG" != "" ]; then
         OUTPUT=$HEAD$LOG;
     fi
