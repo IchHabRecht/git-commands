@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright (c) 2016 Nicole Cordes
+# Copyright (c) 2016 Nicole Cordes, v1.0.0
 #
 # This script rewrites the repository information and sets the committer information (date, name, email)
 # to the authors information of each commit.
