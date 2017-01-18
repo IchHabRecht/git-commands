@@ -16,6 +16,9 @@
 #   <revision range>
 #   Use only commits in the defined revision range. If not given the list is caught automatically.
 #   It is either the commits between last tag and HEAD or master branch and HEAD.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
 WRITE=true
 FILE="ChangeLog"
