@@ -13,10 +13,10 @@ FORCE=false
 LOG=false
 while [ "$1" != "" ]; do
     case $1 in
-        -f )
+        -f|--force )
             FORCE=true
             ;;
-        -l )
+        -l|--log )
             LOG=true
             ;;
     esac
