@@ -3,18 +3,21 @@
 #
 # Copyright (c) 2016 Nicole Cordes
 
-WRITE=false
+WRITE=true
 FILE="ChangeLog"
 GITPATH="master..HEAD"
 
 while [ "$1" != "" ]; do
     case $1 in
         -w )
-            WRITE=true
+            echo "You are using the deprecated -w option. Changelog is now written by default. You can use --dry-run to prevent writing."
             ;;
         -f )
             shift
             FILE="$1"
+            ;;
+        --dry-run)
+            WRITE=false
             ;;
         * )
             GITPATH="$1"
