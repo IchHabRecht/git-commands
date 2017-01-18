@@ -9,9 +9,6 @@ GITPATH="master..HEAD"
 
 while [ "$1" != "" ]; do
     case $1 in
-        -c )
-            GITPATH=""
-            ;;
         -w )
             WRITE=true
             ;;
