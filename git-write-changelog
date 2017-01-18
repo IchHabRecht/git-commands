@@ -57,7 +57,7 @@ if `git branch --no-color | grep -q '^\*'`; then
     if $WRITE; then
         echo "$OUTPUT" > $FILE
 
-        OUTPUT=$OUTPUT$'\n'$'\n'"File $FILE was written."
+        OUTPUT=$OUTPUT$'\n'$'\n'"File \"$FILE\" was written."
     fi
 
     echo "$OUTPUT"
