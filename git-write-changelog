@@ -2,6 +2,20 @@
 
 #
 # Copyright (c) 2016 Nicole Cordes
+#
+# This script writes (appends) a changelog file according to the repository information
+#
+#   git write-changelog [-f | --file] [--dry-run] [<revision range>]
+#
+#   -f | --file
+#   Defines the file name for the changelog file. Default: ChangeLog
+#
+#   --dry-run
+#   Displays the changelog only, the changelog file is not written.
+#
+#   <revision range>
+#   Use only commits in the defined revision range. If not given the list is caught automatically.
+#   It is either the commits between last tag and HEAD or master branch and HEAD.
 
 WRITE=true
 FILE="ChangeLog"
