@@ -5,7 +5,7 @@
 
 WRITE=true
 FILE="ChangeLog"
-REFLIST="master..HEAD"
+REFLIST=
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -34,11 +34,12 @@ if `git branch --no-color | grep -q '^\*'`; then
         TAGS=`git tag -l`
         if [ "$TAGS" == "" ]; then
             BRANCH="0.1.0"
-            REFLIST=""
         else
             COMMIT=`git rev-list --tags --max-count=1`
             BRANCH=`git describe --tags $COMMIT`
-            REFLIST="$COMMIT..HEAD"
+            if [ "$REFLIST" == "" ]; then
+                REFLIST="$COMMIT..HEAD"
+            fi
         fi
     fi
     if [ "$BRANCH" != "" ]; then
@@ -46,6 +47,9 @@ if `git branch --no-color | grep -q '^\*'`; then
         DIR=${PWD##*/}
         USER=`git config --get user.name`
         HEAD="$DATE         [RELEASE] Release of $DIR $BRANCH ($USER)"$'\n'
+        if [ "$REFLIST" == "" ]; then
+            REFLIST="master..HEAD"
+        fi
     fi
 
     LOG=`git log --pretty=format:"%ad %h %s (%an)" --date=short --no-merges $REFLIST`
