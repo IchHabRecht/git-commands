@@ -47,11 +47,11 @@ if `git branch --no-color | grep -q '^\*'`; then
 
     LOG=`git log --pretty=format:"%ad %h %s (%an)" --date=short --no-merges $GITPATH`
     if [ "$LOG" != "" ]; then
-        OUTPUT=$HEAD$LOG$'\n'$'\n';
+        OUTPUT=$HEAD$LOG;
     fi
 
     if [ -f $FILE ]; then
-        OUTPUT=$OUTPUT"`cat $FILE`"
+        OUTPUT=$OUTPUT$'\n'$'\n'"`cat $FILE`"
     fi
 
     if $WRITE; then
