@@ -5,9 +5,13 @@
 #
 # This script pulls all local branches with tracking information
 #
-#   Use `git pull-all` for fetching and fast-forward
-#   Use `git pull-all -f` to hard reset to current tracking branch
-#   Use `git pull-all -l` to show log information
+#   git pull-all [-f | --force] [-l | --log]
+#
+#   -f | --force
+#   Force the local branch to be hard reset to its tracking branch.
+#
+#   -l | --log
+#   Show information about tracking branch and executed command.
 
 FORCE=false
 LOG=false
