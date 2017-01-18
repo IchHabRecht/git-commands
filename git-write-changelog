@@ -1,0 +1,68 @@
+#!/bin/sh
+
+#
+# Copyright (c) 2016 Nicole Cordes
+
+WRITE=false
+FILE="ChangeLog"
+GITPATH="master..HEAD"
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -c )
+            GITPATH=""
+            ;;
+        -w )
+            WRITE=true
+            ;;
+        -f )
+            shift
+            FILE="$1"
+            ;;
+        * )
+            GITPATH="$1"
+            ;;
+    esac
+    shift
+done
+
+if `git branch --no-color | grep -q '^\*'`; then
+    OUTPUT=""
+    HEAD=""
+    BRANCH=`git branch --no-color | grep '^\*' | grep -v 'no branch' | sed 's/^* //g' | sed 's/.*\///g' | grep '^[0-9][0-9.]'`
+    if [ "$BRANCH" == "" ]; then
+        TAGS=`git tag -l`
+        if [ "$TAGS" == "" ]; then
+            BRANCH="0.1.0"
+            GITPATH=""
+        else
+            COMMIT=`git rev-list --tags --max-count=1`
+            BRANCH=`git describe --tags $COMMIT`
+            GITPATH="$COMMIT..HEAD"
+        fi
+    fi
+    if [ "$BRANCH" != "" ]; then
+        DATE=`date +%Y-%m-%d`
+        DIR=${PWD##*/}
+        USER=`git config --get user.name`
+        HEAD="$DATE         [RELEASE] Release of $DIR $BRANCH ($USER)"$'\n'
+    fi
+
+    LOG=`git log --pretty=format:"%ad %h %s (%an)" --date=short --no-merges $GITPATH`
+    if [ "$LOG" != "" ]; then
+        OUTPUT=$HEAD$LOG$'\n'$'\n';
+    fi
+
+    if [ -f $FILE ]; then
+        OUTPUT=$OUTPUT"`cat $FILE`"
+    fi
+
+    if $WRITE; then
+        echo "$OUTPUT" > $FILE
+
+        OUTPUT=$OUTPUT$'\n'$'\n'"File $FILE was written."
+    fi
+
+    echo "$OUTPUT"
+
+fi

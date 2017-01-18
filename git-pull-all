@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#
+# Copyright (c) 2017 Nicole Cordes
+#
+# This script pulls all local branches with tracking information
+#
+#   Use `git pull-all` for fetching and fast-forward
+#   Use `git pull-all -f` to hard reset to current tracking branch
+#   Use `git pull-all -l` to show log information
+
+FORCE=false
+LOG=false
+while [ "$1" != "" ]; do
+    case $1 in
+        -f )
+            FORCE=true
+            ;;
+        -l )
+            LOG=true
+            ;;
+    esac
+    shift
+done
+
+git branch -lvv | while read line ; do
+    # Check for tracking remote branch
+    # develop      40b68b8 [origin/develop] Merge branch 'hotfix/1.0.1' into develop
+    if [[ "$line" =~ ([^*\ ]+)([^[]+\[)([^/]+)/([^\]:]+) ]]; then
+        if $FORCE; then
+            COMMAND="git checkout --quiet ${BASH_REMATCH[1]} && git fetch ${BASH_REMATCH[3]} && git reset --hard ${BASH_REMATCH[3]}/${BASH_REMATCH[4]} && git checkout --quiet -"
+        else
+            COMMAND="git checkout --quiet HEAD~1 && git fetch ${BASH_REMATCH[3]} ${BASH_REMATCH[1]}:${BASH_REMATCH[4]} && git checkout --quiet -"
+        fi
+        if $LOG; then
+            echo ""
+            echo "$line"
+            echo "$COMMAND"
+        fi
+        eval $COMMAND
+    fi
+done
