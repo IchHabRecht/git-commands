@@ -9,17 +9,17 @@ GITPATH="master..HEAD"
 
 while [ "$1" != "" ]; do
     case $1 in
-        -w )
+        -w)
             echo "You are using the deprecated -w option. Changelog is now written by default. You can use --dry-run to prevent writing."
             ;;
-        -f )
+        -f|--file)
             shift
             FILE="$1"
             ;;
         --dry-run)
             WRITE=false
             ;;
-        * )
+        *)
             GITPATH="$1"
             ;;
     esac
