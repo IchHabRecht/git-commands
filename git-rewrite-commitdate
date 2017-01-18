@@ -3,5 +3,16 @@
 #
 # Copyright (c) 2016 Nicole Cordes
 
-git filter-branch --env-filter 'export GIT_COMMITTER_DATE=$GIT_AUTHOR_DATE; export GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME; export GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL;' $@
+ARGUMENTS=
+REFLIST=
+while [ "$1" != "" ]; do
+    if [[ $1 =~ ^[0-9]+$ ]]; then
+        REFLIST="HEAD~$@..HEAD"
+    else
+        ARGUMENTS="${ARGUMENTS} $1"
+    fi
+    shift
+done
+
+git filter-branch --env-filter 'export GIT_COMMITTER_DATE=$GIT_AUTHOR_DATE; export GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME; export GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL;' ${ARGUMENTS} ${REFLIST}
 git update-ref -d refs/original/refs/heads/master
