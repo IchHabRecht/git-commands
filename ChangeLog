@@ -1,3 +1,6 @@
+2017-01-24         [RELEASE] Release of git-commands 1.0.1 (Nicole Cordes)
+2017-01-24 a6a8ad9 [BUGFIX] rewrite-commitdate: Use correct argument in REFLIST (Nicole Cordes)
+
 2017-01-18         [RELEASE] Release of git-commands 1.0.0 (Nicole Cordes)
 2017-01-18 c6c2903 [TASK] Add license information (Nicole Cordes)
 2017-01-18 e09b65b [TASK] rewrite-commitdate: Add usage information (Nicole Cordes)
